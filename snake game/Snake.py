@@ -1,13 +1,17 @@
 from turtle import Turtle , Screen
 
-from oauthlib.uri_validate import segment_nz_nc
-
 MOVE_DISTANCE = 20
+UP = 90
+DOWN = 270
+RIGHT = 0
+LEFT = 180
+
 class Snake:
   def __init__(self):
       self.segment = []
       self.create_snake()
       self.head = self.segment[0]
+      self.tail = self.segment[len(self.segment)-1]
 
   def create_snake(self):
       coordinate = ((0,0),(-20,0),(-40,0))
@@ -26,13 +30,26 @@ class Snake:
      self.head.forward(MOVE_DISTANCE)
 
   def up(self):
-      self.head.setheading(90)
+     if self.head.heading() != DOWN:
+         self.head.setheading(UP)
 
   def left(self):
-      self.head.setheading(180)
+      if self.head.heading() != RIGHT:
+          self.head.setheading(LEFT)
 
   def down(self):
-      self.head.setheading(270)
+      if self.head.heading() != UP:
+          self.head.setheading(DOWN)
 
   def right(self):
-      self.head.setheading(0)
+      if self.head.heading() != LEFT:
+          self.head.setheading(RIGHT)
+
+  def addNewTurtle(self):
+      turtle = Turtle("square")
+      turtle.penup()
+      turtle.color("red")
+      x = self.segment[len(self.segment)-1].xcor()
+      y = self.segment[len(self.segment)-1].ycor()
+      turtle.goto(x,y - 20)
+      self.segment.append(turtle)
